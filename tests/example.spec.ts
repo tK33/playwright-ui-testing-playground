@@ -194,11 +194,15 @@ test.describe('UI TP - Test Cases', () => {
     //Yükleme Başlat
     await startButton.click();
 
-    //Progress Bar'ın aria-valuenow değerinin 75 olmasını dinamik olarak bekle
-    //Playwright locator bildirimleri sayesinde aria attribute değişimini izleyebiliriz
-    //attached kullanmamızın sebebi aria-valuenow="75" niteliğinin DOM yapısına bağlanmasını (attached) bekledik.Bu bize min. gecikmeyi sağladı.
-    const targetProgressBar = page.locator('[aria-valuenow="75"]');
-    await targetProgressBar.waitFor({ state: 'attached', timeout: 30000 });
+    // Değerin 75 veya üzerine çıkmasını Playwright'ın akıllı beklemesiyle takip edelim
+    await expect(async () => {
+      const val = await progressBar.getAttribute('aria-valuenow');
+      const numVal = val ? parseInt(val, 10) : 0;
+      expect(numVal).toBeGreaterThanOrEqual(75);
+    }).toPass({
+      timeout: 30000,
+      intervals: [1000], // Saniyede bir kontrol et
+    });
 
     //Değer 75 olduğunda Stop Bas
     await stopButton.click();
@@ -668,7 +672,7 @@ test.describe('UI TP - Test Cases', () => {
 
     //Case 3 - Select by Value
     const versionSelect = page.locator('#selectProduct');
-    await versionSelect.selectOption({value:'v2.0'});       //veya 'v2.0'
+    await versionSelect.selectOption({ value: 'v2.0' });       //veya 'v2.0'
     await expect(page.getByText(/Selected: 2.0|v2.0/i)).toBeVisible();
 
     //Case 4 - Multi Select
