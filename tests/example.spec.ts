@@ -197,6 +197,9 @@ test.describe('UI TP - Test Cases', () => {
     // Değerin 75 veya üzerine çıkmasını Playwright'ın akıllı beklemesiyle takip edelim
     await expect(async () => {
       const val = await progressBar.getAttribute('aria-valuenow');
+      //Eğer val değişkeni boş veya null değilse ilk kısmı çalıştır, boşsa (0 veya null gelme ihtimaline karşı güvenli olması için) direkt 0 ata demektir.
+      //Metin olarak gelen "75" ifadesini 10luk tabanda (decimal) tam sayıya (number) dönüştürür.
+      //Aşağıdaki yapının formatı = koşul ? doğruysa_çalışacak_kod : yanlışsa_çalışacak_kod
       const numVal = val ? parseInt(val, 10) : 0;
       expect(numVal).toBeGreaterThanOrEqual(75);
     }).toPass({
