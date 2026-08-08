@@ -24,4 +24,29 @@ This repository contains an End-to-End (E2E) Test Automation Framework built wit
   git clone [https://github.com/tk33/playwright-ui-testing-playground.git](https://github.com/tk33/playwright-ui-testing-playground.git)
   cd playwright-ui-testing-playground
   ```
+  2.Install dependencies:
+  ```bash
+  npm install
+  ```
+
+  3.Install Playwright Browsers:
+  ```bash
+  npx playwright install
+  ```
+🧪 Running Tests
+
+  Run all tests in headless mode:
+  ```bash
+  npx playwright test
+  ```
+  
+  Run tests in UI mode:
+  ```bash
+  npx playwright test --ui
+  ```
+
+  Generate and view HTML report:
+  ```bash
+  npx playwright show-report
+  ```
  
